@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.Random;
 
 class ItemThread extends Thread {
+
+    @Override
     public void run() {
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
@@ -23,7 +25,7 @@ class ItemThread extends Thread {
         }
 
         try {
-            for (Socket socket : MainThread.clientQueue) {
+            for (Socket socket : WaitingThread.clientQueue) {
                 InputStream in = socket.getInputStream();
                 OutputStream out = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(out));
