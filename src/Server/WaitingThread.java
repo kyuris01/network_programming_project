@@ -11,7 +11,8 @@ public class WaitingThread extends Thread { //게임접속대기인원 관리, �
     private static final int PORT = 6003;
     private static final int MIN_CLIENTS = 1;
     public static Queue<Socket> clientQueue = new LinkedList<>();
-    public static int partNum = 0;
+    public static int playerNum = 0;
+
     @Override
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -31,16 +32,18 @@ public class WaitingThread extends Thread { //게임접속대기인원 관리, �
 
                         pw.println("게임이 곧 시작됩니다...");
                         pw.flush();
-                        pw.close();
-                        br.close();
+
                     }
                     break;
                 }
             }
 
-            partNum = clientQueue.size();
+            playerNum = clientQueue.size();
         } catch (IOException e) {
             System.out.println("서버 오류: " + e.getMessage());
         }
+
+        ClientHandlerThread t = new ClientHandlerThread();
+        t.start();
     }
 }
